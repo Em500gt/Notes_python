@@ -1,5 +1,5 @@
 from menu import *
+from database import *
 
-print(menu.get_menu())
-print(menu.add_notes())
-
+database.db_init()
+menu.get_menu()

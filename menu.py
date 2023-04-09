@@ -1,4 +1,5 @@
 import csv
+import database
 
 class menu():
     
@@ -9,11 +10,24 @@ class menu():
             
             try:
                 n = int(input("Выберите операцию: "))
-                if n > 4 or n < 0:
-                    print("Такой операции не существует!")
             except ValueError:
-                print("Такой операции не существует!")
+                print("\nТакой операции не существует!")
+                continue
+
+            if n > 4 or n < 0:
+                print("\nТакой операции не существует!")
+            
+            elif n == 0:
                 break
 
-    def add_notes():
-        pass
+            elif n == 1:
+                database.show_record()
+
+            elif n == 2:
+                database.record(input("\nВведите заголовок заметки: "), input("Введите тело заметки: "))
+            
+            elif n == 3:
+                database.editing_records(input("Введите заголовок заметки: "))
+
+            elif n == 4:
+                database.delete_records(input("Введите заголовок заметки: "))

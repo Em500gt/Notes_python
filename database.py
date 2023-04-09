@@ -1,27 +1,84 @@
+from datetime import *
+import os.path
 import csv
-import os
+import copy
 
-class Database():
-    db = list()
-    global_id = 0
-    file_name_db = ''
+db = list()
+file_name_db = ''
 
-    def db_init(name='base.csv'):
-        global db
-        global global_id
-        global file_name_db
-        file_name_db = name
+def db_init(name='base.csv'):
+    global db
+    global file_name_db
+    file_name_db = name
 
-        if os.path.exists(file_name_db):
+    if os.path.exists(file_name_db):
 
-            with open(file_name_db, 'r', newline='') as csv_file:
-                reader = csv.reader(csv_file)
+        with open(file_name_db, 'r', newline='') as csv_file:
+            reader = csv.reader(csv_file)
 
-                for i in reader:
-                    if i[0] != 'ID':
-                        db.append(i)
+            for i in reader:
+                if i[0] != 'ID':
+                    db.append(i)
+    else:
+        open(file_name_db, 'w', newline='').close()
 
-                        if int(i[0]) > global_id:
-                            global_id = int(i[0])
-        else:
-            open(file_name_db, 'w', newline='').close()
+def record(header, text):
+
+    users = [header.title(), text.title(), datetime.now(tz=None)]
+    db.append(users)
+
+    with open(file_name_db, 'a', newline='') as csv_file:
+        writer = csv.writer(csv_file, delimiter=',', quotechar='\'', quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(users)
+    
+    print("\nЗаметка успешно добавлена")
+
+def delete_records(id):
+    global db
+    global file_name_db
+
+    for i in db:
+        if i[0] == id:
+            print(f'Вы хотите удалить эту запись?: {show(i)}?')
+            n = input("Да - (y), Нет - (n): ")
+            if n == 'y':
+                db.remove(i)
+                break
+
+    with open(file_name_db, 'w', newline='') as csv_file:
+        writer = csv.writer(csv_file, delimiter=',', quotechar='\'', quoting=csv.QUOTE_MINIMAL)
+
+        for i in db:
+            writer.writerow(i)
+            
+
+def show_record():
+    for i in db:
+        print(f"\nЗаголовок заметки -> {i[0]}")
+        print(f"Тело заметки -> {i[1]}")
+        print(f"Дата последнего изменения -> {i[2]}\n")
+
+def show(n):
+    print(f"\nЗаголовок заметки -> {n[0]}")
+    print(f"Тело заметки -> {n[1]}")
+    print(f"Дата последнего изменения -> {n[2]}\n")
+
+def editing_records(id):
+    global db
+    global file_name_db
+
+    for i in db:
+        if i[0] == id:
+            print(f'Вы хотите редактировать эту запись?: {show(i)}?')
+            n = input("Да - (y), Нет - (n): ")
+            if n == 'y':
+                db.remove(i)
+                users = [id.title(), input("Введите тело заметки: ").title(), datetime.now(tz=None)]
+                db.append(users)
+                break
+
+    with open(file_name_db, 'w', newline='') as csv_file:
+        writer = csv.writer(csv_file, delimiter=',', quotechar='\'', quoting=csv.QUOTE_MINIMAL)
+
+        for i in db:
+            writer.writerow(i)
