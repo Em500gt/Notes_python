@@ -39,7 +39,10 @@ def delete_records(id):
 
     for i in db:
         if i[0] == id:
-            print(f'Вы хотите удалить эту запись?: {show(i)}?')
+            print(f'\nВы хотите удалить эту запись?')
+            print(f"\nЗаголовок заметки -> {i[0]}")
+            print(f"Тело заметки -> {i[1]}")
+            print(f"Дата последнего изменения -> {i[2]}\n")
             n = input("Да - (y), Нет - (n): ")
             if n == 'y':
                 db.remove(i)
@@ -58,10 +61,12 @@ def show_record():
         print(f"Тело заметки -> {i[1]}")
         print(f"Дата последнего изменения -> {i[2]}\n")
 
-def show(n):
-    print(f"\nЗаголовок заметки -> {n[0]}")
-    print(f"Тело заметки -> {n[1]}")
-    print(f"Дата последнего изменения -> {n[2]}\n")
+def show(id):
+        for i in db:
+            if i[0] == id:
+                print(f"\nЗаголовок заметки -> {i[0]}")
+                print(f"Тело заметки -> {i[1]}")
+                print(f"Дата последнего изменения -> {i[2]}\n")
 
 def editing_records(id):
     global db
@@ -69,7 +74,10 @@ def editing_records(id):
 
     for i in db:
         if i[0] == id:
-            print(f'Вы хотите редактировать эту запись?: {show(i)}?')
+            print(f'\nВы хотите редактировать эту запись?')
+            print(f"\nЗаголовок заметки -> {i[0]}")
+            print(f"Тело заметки -> {i[1]}")
+            print(f"Дата последнего изменения -> {i[2]}\n")
             n = input("Да - (y), Нет - (n): ")
             if n == 'y':
                 db.remove(i)

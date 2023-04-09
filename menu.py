@@ -21,7 +21,19 @@ class menu():
                 break
 
             elif n == 1:
-                database.show_record()
+                print("11 - Для вывода всех заметок\n12 - Вывод определенных заметок")
+                try:
+                    s = int(input("Выберите операцию: "))
+                    if s > 13 or s < 11:
+                        print("\nТакой операции не существует!")
+                except ValueError:
+                    print("\nТакой операции не существует!")
+                    continue
+                                
+                if s == 11:
+                    database.show_record()
+                elif s == 12:
+                    database.show(input("Введите заголовок заметки: "))
 
             elif n == 2:
                 database.record(input("\nВведите заголовок заметки: "), input("Введите тело заметки: "))
